@@ -6,38 +6,48 @@
     <title>Vue实例生命周期函数</title>
     <script src="./vue.js"></script>
 </head>
+<style>
+    .activated {
+        color: red
+    }
+</style>
 
 <body>
 
     <div id="app">
-        {{firstName}}
-        {{lastName}}
-        {{fullName}}
+        <!-- <div @click="handleDivClick" :class="[activated,activatedOne]"> -->
+        <div @click="handleDivClick" :style="[styleObj, {fontSize: '20px'}]">
+            Hello world
+        </div>
+
     </div>
 
 
     <script>
-
+        // 样式和数据的交互
+        // - 1 classs
+        // 1. class 绑定对象 {}
+        // 2. class 绑定数组 [obj1,obj2]
+        // - 1 style
+        // 1. style 对象 {}或 objs
+        // 2. style 数组 数组里的对象内容所决定
+        // 更改样式则直接操作数据即可
         var vm = new Vue({
             el: "#app",
+            // data: {
+            //     activated: "",
+            //     activatedOne: "activatedOne"
+            // },
             data: {
-                firstName: "dell",
-                lastName: "lee"
+                styleObj: {
+                    color: "black"
+                }
             },
-            computed: {
-                fullName: {
-                    get: function(){
-                        return this.firstName + " " + this.lastName;
-                    },
-                    set: function(value){
-                        var arr = value.split(" ");
-                        this.firstName = arr[0];
-                        this.lastName = arr[1];
-                        console.log(value);
-                    }
+            methods: {
+                handleDivClick: function () {
+                    this.styleObj.color = this.styleObj.color === "black" ? "red" : "black";
                 }
             }
-
         })
     </script>
 
