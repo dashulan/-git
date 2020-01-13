@@ -1,67 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Vue实例生命周期函数</title>
     <script src="./vue.js"></script>
 </head>
+
 <body>
-    
+
     <div id="app">
-        <!-- {{firstName + " " + lastName}} -->
+        {{firstName}}
+        {{lastName}}
         {{fullName}}
-        {{age}}
     </div>
 
 
     <script>
-        /* 
-            1. 首先如果选择之间在插值表达式中通过js表达式将数据进行简单操作是可以的，
-                但这样做不好，因为V层应该是进行简单的数据展示，而不涉及到任何逻辑操作
-                1)这个问题就引出了 计算属性
-                2）通过methods 通过函数可以进行操作
-                3）通过 watch
-        
-         */
-        
+
         var vm = new Vue({
             el: "#app",
             data: {
                 firstName: "dell",
-                lastName: "lee",
-                fullName: "dell Lee",
-                age: 28
+                lastName: "lee"
             },
-            watch:{
-                firstName:function(){
-                    console.log("计算了一次");
-                    this.fullName = this.firstName + " " + this.lastName;
-                },
-                lastName:function(){
-                    console.log("计算了一次")
-                    this.fullName = this.firstName + " " + this.lastName;
+            computed: {
+                fullName: {
+                    get: function(){
+                        return this.firstName + " " + this.lastName;
+                    },
+                    set: function(value){
+                        var arr = value.split(" ");
+                        this.firstName = arr[0];
+                        this.lastName = arr[1];
+                        console.log(value);
+                    }
                 }
             }
 
-
-            // 计算属性     计算属性内置缓存
-            // computed: {
-            //     fullName: function(){
-            //         console.log("计算了一次")
-            //         return this.firstName + " " + this.lastName;
-            //     }
-            // }
-
-            //使用methods 通过函数是实现计算属性相同的效果，但是没有缓存  性能差
-            // methods: {
-            //     fullName: function(){
-            //         console.log("计算了一次");
-            //         return this.firstName + " " + this.lastName;
-            //     }
-            // }
-            
         })
     </script>
 
 </body>
-</html>     
+
+</html>
