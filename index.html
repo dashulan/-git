@@ -6,6 +6,7 @@
     <script src="./vue.js"></script>
 </head>
 <body>
+    <!--这边的模板就是 V层-->
     <div id="app">
         <input type='text' v-model="inputValue"/>
         <button v-on:click="handleBtnClick">提交</button>
@@ -16,6 +17,10 @@
 
 
     <script>
+        // MVVM
+        
+
+        // M层
         var app = new Vue({
             el: '#app',
             data: {
