@@ -6,45 +6,27 @@
     <script src="./vue.js"></script>
 </head>
 <body>
-    <!--这边的模板就是 V层-->
-    <div id="app"></div>
+    
+    <div id="app">
+        <div>{{name + 'fff'}}</div>
+        <div v-text="name"></div>
+        <div v-html="name"></div>
+    </div>
 
 
     <script>
-        // 生命周期函数就是vue实例在某个时间点会自动执行的函数
+        /* 
+            不同的选择 值 方法
+            1. 插值表达式  {{ VALUE }}
+            2. v-text  让  dom.innnertext 里面的内容变成 "这个js表达式的值"       v-text和插值表达式效果相同
+            3. v-html 
+        
+         */
         var vm = new Vue({
             el: "#app",
-            template: '  <div id="app">{{ test }}</div>',
-            data:{
-                test:''
-            },
-            beforeCreate: function(){
-                console.log("beforeCreate");
-            },
-            created: function(){
-                console.log("created");
-            },
-            beforeMount: function(){
-                console.log(this.$el);
-                console.log("beforeMount");
-            },
-            mounted: function(){
-                console.log(this.$el);
-                console.log("mounted");
-            },
-            beforeDestroy: function(){
-                console.log("beforeDestroy");
-            },
-            destroyed: function(){
-                console.log("destroyed");
-            },
-            beforeUpdate: function(){
-                console.log("beforeUpdate");
-            },
-            updated: function(){
-                console.log("updated");
-            } 
-
+            data: {
+                name: 'dell'
+           }
         })
     </script>
 
