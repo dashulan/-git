@@ -11,47 +11,43 @@
 <body>
     <!-- 1. 为了性能 用key 唯一 -->
     <div id="root" >
-        <row ref="one" @change="handleChange"></row>
-        <row ref="tow" @change="handleChange"></row>
-        <div>
-            {{total}}
-        </div>
+        <counter :count="0" @change='handleChange'></counter>
+        <counter :count="1"  @change='handleChange'></counter>
+        {{total}}
     </div>
 
 
     <script>
-        // 1.由于h5的规范，DOM元素的嵌套必须按照它的规则来，
-        // 但你又想要使用你自己自定义组件，此时可以通过  is属性   is="component"
-
-        var ROW = {
-
+        
+        var counter = {
+            props:['count'],
+            template: '<div @click="handleClick" > {{number}} </div>',
             data:function(){
                 return {
-                    number:0
+                    number: this.count
                 }
             },
-            methods:{
-                handleClick:function(){
-                    this.number ++;
-                    this.$emit('change')
+            methods: {
+                handleClick: function(){
+                    this.number++;
+                    this.$emit('change', 1)
                 }
-            },
-            template: '<div @click="handleClick">{{number}}</div>'
+            }
         }
+ 
+
 
         var vm = new Vue({
             el: '#root',
             components: {
-                row: ROW
+                counter:counter
             },
-            data: {
-                total:0
+            data:{
+                total:5
             },
-            methods: {
-                handleChange: function(){
-                    this.total =this.$refs.one.number + this.$refs.tow.number 
-                    console.log(this.$refs.one.number)
-                    console.log(this.$refs.tow.number)
+            methods:{
+                handleChange:function(event){
+                    this.total +=event;
                 }
             }
         })
