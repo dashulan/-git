@@ -12,21 +12,13 @@
     <!-- 1. 为了性能 用key 唯一 -->
     <div id="root">
 
-        <child content="12334" test33="12333"></child>
+        <child @click.native="handleClick"></child>
     </div>
 
     <script>
 
         var child = {
-            props: {
-                content: {
-                    type: String,
-                    validator: function (value) {
-                        return (value.length >= 5)
-                    }
-                }
-            },
-            template: '<div>{{content}}</div>'
+            template: '<div >fffff</div>'
         }
 
 
@@ -36,6 +28,11 @@
             el: '#root',
             components: {
                 child: child
+            },
+            methods:{
+                handleClick:function(){
+                    alert("click")
+                }
             }
 
         })
