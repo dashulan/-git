@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>vue中的列表渲染</title>
+    <title>非父子组件传值(BUS/总线/发布订阅/观察者模式)</title>
     <script src="./vue.js"></script>
 </head>
 
@@ -12,13 +12,35 @@
     <!-- 1. 为了性能 用key 唯一 -->
     <div id="root">
 
-        <child @click.native="handleClick"></child>
+        <child :content="'dell'"></child>
+        <child :content="'lee'"></child>
     </div>
 
     <script>
 
+        Vue.prototype.bus = new Vue()
+
         var child = {
-            template: '<div >fffff</div>'
+            data: function () {
+                return {
+                    seleContent: this.content
+                }
+            },
+            props: {
+                content: String
+            },
+            template: '<div @click="handleClick">{{seleContent}}</div>',
+            methods: {
+                handleClick: function () {
+                    this.bus.$emit('change', this.seleContent)
+                }
+            },
+            mounted: function () {
+                var self = this;
+                this.bus.$on('change', function (msg) {
+                    self.seleContent = msg
+                })
+            }
         }
 
 
@@ -29,8 +51,8 @@
             components: {
                 child: child
             },
-            methods:{
-                handleClick:function(){
+            methods: {
+                handleClick: function () {
                     alert("click")
                 }
             }
