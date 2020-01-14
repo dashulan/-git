@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>非父子组件传值(BUS/总线/发布订阅/观察者模式)</title>
+    <title>VUE插槽</title>
     <script src="./vue.js"></script>
 </head>
 
@@ -12,35 +12,30 @@
     <!-- 1. 为了性能 用key 唯一 -->
     <div id="root">
 
-        <child :content="'dell'"></child>
-        <child :content="'lee'"></child>
+        <bodycontent :url="tt" :content="'123'">
+            <div class='header' slot="header">header</div>
+            <div class='footer' slot="footer" >footer</div>
+        </bodycontent>
     </div>
 
     <script>
 
-        Vue.prototype.bus = new Vue()
 
         var child = {
-            data: function () {
+            props:['content'],
+            data:function(){
                 return {
-                    seleContent: this.content
+                    slotContent:'fffff'
                 }
             },
-            props: {
-                content: String
-            },
-            template: '<div @click="handleClick">{{seleContent}}</div>',
-            methods: {
-                handleClick: function () {
-                    this.bus.$emit('change', this.seleContent)
-                }
-            },
-            mounted: function () {
-                var self = this;
-                this.bus.$on('change', function (msg) {
-                    self.seleContent = msg
-                })
-            }
+            template: `
+                <div>
+                    <slot name="header"></slot>
+                    <div class='content'>content</div>
+                    <slot name="footer"></slot>
+                </div>
+            `
+            
         }
 
 
@@ -49,12 +44,13 @@
         var vm = new Vue({
             el: '#root',
             components: {
-                child: child
+                bodycontent: child
             },
             methods: {
-                handleClick: function () {
-                    alert("click")
-                }
+               
+            },
+            data:{
+                tt:"123"
             }
 
         })
