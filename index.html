@@ -3,33 +3,34 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Vue实例生命周期函数</title>
+    <title>vue中的列表渲染</title>
     <script src="./vue.js"></script>
 </head>
-<style>
-    .activated {
-        color: red
-    }
-</style>
+
 
 <body>
-
+    <!-- 1. 为了性能 用key 唯一 -->
     <div id="app">
-        <div v-if="show">
-            用户名: <input key="username" />
+        <div v-for="(item, key, index) in userInfo">
+            {{item}} ---{{key}} --- {{index}}
         </div>
-        <div v-else>
-            邮箱名: <input key="password" />
-        </div>
+       
     </div>
 
 
     <script>
-      
+        // v-for 循环数组，循环对象
+        // 1. 数组 item index
+        // 2. 对象 item key index
         var vm = new Vue({
             el: "#app",
             data: {
-                show: false,
+                userInfo: {
+                    name: "dell",
+                    age: 25,
+                    gender: "male",
+                    job: "student"
+                }
             }
         })
     </script>
