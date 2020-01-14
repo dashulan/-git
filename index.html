@@ -3,74 +3,40 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>VUE插槽</title>
+    <title>动态组件和V-once</title>
     <script src="./vue.js"></script>
 </head>
 
 
 <body>
-    <!-- 1. 为了性能 用key 唯一 -->
     <div id="root">
-
-        <bodycontent>
-            <template v-slot:slot1="slotProps">
-                <li>{{slotProps.item}}</li>
-            </template>
-
-            <template v-slot:slot2="slotProps">
-                <li>{{slotProps.item2}}</li>
-            </template>
-        </bodycontent>
+        <child-one v-if="type === 'child-one'"></child-one>
+        <child-two v-if="type === 'child-two'"></child-two>
+        <!-- <component :is="type"></component> -->
+        <button @click="handleBtnClick">change</button>
     </div>
 
     <script>
 
-
-        var child = {
-            data: function () {
-                return {
-                    list: [1, 2, 3, 4],
-                    list2:['ff','33','55']
-                }
-            },
-            template: `
-                <div>
-                    <ul>
-                        <slot
-                            name="slot1"
-                            v-for="item of list"
-                            :item=item
-                        >
-                        </slot>
-                        <slot
-                            name="slot2"
-                            v-for="item2 of list2"
-                            :item2=item2
-                        >
-                        </slot>
-                    </ul>
-                </div>
-            `
-            // 只关心数据 不关心内容
-            // 内容形式有父组件来决定
-
-        }
-
-
+        Vue.component('child-one',{
+            template: '<div v-once>child-one</div>'
+        })
+        
+        Vue.component('child-two',{
+            template: '<div v-once>child-two</div>'
+        })
 
 
         var vm = new Vue({
             el: '#root',
-            components: {
-                bodycontent: child
+            data:{
+                type:'child-one'
             },
-            methods: {
-
-            },
-            data: {
-                tt: "123"
+            methods:{
+                handleBtnClick:function(){
+                    this.type = this.type==='child-one'?'child-two':'child-one'
+                }
             }
-
         })
 
 
