@@ -10,30 +10,56 @@
 
 <body>
     <!-- 1. 为了性能 用key 唯一 -->
-    <div id="app">
-        <div v-for="(item, key, index) in userInfo">
-            {{item}} ---{{key}} --- {{index}}
+    <div id="root" >
+        <row ref="one" @change="handleChange"></row>
+        <row ref="tow" @change="handleChange"></row>
+        <div>
+            {{total}}
         </div>
-       
     </div>
 
 
     <script>
-        // v-for 循环数组，循环对象
-        // 1. 数组 item index
-        // 2. 对象 item key index
+        // 1.由于h5的规范，DOM元素的嵌套必须按照它的规则来，
+        // 但你又想要使用你自己自定义组件，此时可以通过  is属性   is="component"
+
+        var ROW = {
+
+            data:function(){
+                return {
+                    number:0
+                }
+            },
+            methods:{
+                handleClick:function(){
+                    this.number ++;
+                    this.$emit('change')
+                }
+            },
+            template: '<div @click="handleClick">{{number}}</div>'
+        }
+
         var vm = new Vue({
-            el: "#app",
+            el: '#root',
+            components: {
+                row: ROW
+            },
             data: {
-                userInfo: {
-                    name: "dell",
-                    age: 25,
-                    gender: "male",
-                    job: "student"
+                total:0
+            },
+            methods: {
+                handleChange: function(){
+                    this.total =this.$refs.one.number + this.$refs.tow.number 
+                    console.log(this.$refs.one.number)
+                    console.log(this.$refs.tow.number)
                 }
             }
         })
+
+
+
     </script>
+
 
 </body>
 
