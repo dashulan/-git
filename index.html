@@ -8,15 +8,12 @@
     <link rel="stylesheet" type="text/css" href="./animate.css">
 
     <style>
-  
-        .active{
-            transform-origin: left center;
-            animation: bounce-in 1s;
-        }
-       
-        .leave{
-            transform-origin: left center;
-            animation: bounce-in 1s reverse;
+        .slide-fade-enter, .slide-fade-leave-to{
+             opacity: 0;
+         }
+        .slide-fade-enter-active,
+        .slide-fade-leave-active {
+            transition: opacity 3s;
         }
     </style>
 
@@ -25,10 +22,16 @@
 
 <body>
     <div id="root">
+    
         <transition 
-        enter-active-class="animated swing"
-        leave-active-class="animated shake"
+            :duration="5000"
+            name="slide-fade"
+            appear 
+            enter-active-class="animated swing slide-fade-enter-active"  
+            leave-active-class="animated shake slide-fade-leave-active"
+            appear-active-class="animated swing"
         >
+        
             <div v-if="show">hello world</div>
         </transition>
         <button @click="handleClick">切换</button>
