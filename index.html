@@ -5,8 +5,19 @@
     <meta charset="UTF-8">
     <title>动态组件和V-once</title>
     <script src="./vue.js"></script>
+    <link rel="stylesheet" type="text/css" href="./animate.css">
+
     <style>
-      
+  
+        .active{
+            transform-origin: left center;
+            animation: bounce-in 1s;
+        }
+       
+        .leave{
+            transform-origin: left center;
+            animation: bounce-in 1s reverse;
+        }
     </style>
 
 </head>
@@ -14,7 +25,10 @@
 
 <body>
     <div id="root">
-        <transition name="fade">
+        <transition 
+        enter-active-class="animated swing"
+        leave-active-class="animated shake"
+        >
             <div v-if="show">hello world</div>
         </transition>
         <button @click="handleClick">切换</button>
