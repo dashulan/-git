@@ -15,38 +15,21 @@
 <body>
 
     <div id="app">
-        <!-- <div @click="handleDivClick" :class="[activated,activatedOne]"> -->
-        <div @click="handleDivClick" :style="[styleObj, {fontSize: '20px'}]">
-            Hello world
+        <div v-if="show">
+            用户名: <input key="username" />
         </div>
-
+        <div v-else>
+            邮箱名: <input key="password" />
+        </div>
     </div>
 
 
     <script>
-        // 样式和数据的交互
-        // - 1 classs
-        // 1. class 绑定对象 {}
-        // 2. class 绑定数组 [obj1,obj2]
-        // - 1 style
-        // 1. style 对象 {}或 objs
-        // 2. style 数组 数组里的对象内容所决定
-        // 更改样式则直接操作数据即可
+      
         var vm = new Vue({
             el: "#app",
-            // data: {
-            //     activated: "",
-            //     activatedOne: "activatedOne"
-            // },
             data: {
-                styleObj: {
-                    color: "black"
-                }
-            },
-            methods: {
-                handleDivClick: function () {
-                    this.styleObj.color = this.styleObj.color === "black" ? "red" : "black";
-                }
+                show: false,
             }
         })
     </script>
