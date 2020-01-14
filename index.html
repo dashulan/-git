@@ -10,46 +10,34 @@
 
 <body>
     <!-- 1. 为了性能 用key 唯一 -->
-    <div id="root" >
-        <counter :count="0" @change='handleChange'></counter>
-        <counter :count="1"  @change='handleChange'></counter>
-        {{total}}
+    <div id="root">
+
+        <child content="12334" test33="12333"></child>
     </div>
 
-
     <script>
-        
-        var counter = {
-            props:['count'],
-            template: '<div @click="handleClick" > {{number}} </div>',
-            data:function(){
-                return {
-                    number: this.count
+
+        var child = {
+            props: {
+                content: {
+                    type: String,
+                    validator: function (value) {
+                        return (value.length >= 5)
+                    }
                 }
             },
-            methods: {
-                handleClick: function(){
-                    this.number++;
-                    this.$emit('change', 1)
-                }
-            }
+            template: '<div>{{content}}</div>'
         }
- 
+
+
 
 
         var vm = new Vue({
             el: '#root',
             components: {
-                counter:counter
-            },
-            data:{
-                total:5
-            },
-            methods:{
-                handleChange:function(event){
-                    this.total +=event;
-                }
+                child: child
             }
+
         })
 
 
