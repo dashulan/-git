@@ -8,28 +8,20 @@
     <link rel="stylesheet" type="text/css" href="./animate.css">
     <script src="./velocity.min.js"></script>
 
-    <style>
-        .v-enter,.v-leave-to{
-            opacity: 0;
-        }
-
-        .v-enter-active,.v-leave-active{
-            transition: opacity 1s;
-        }
-   
-        
-    </style> 
 
 </head>
 
 
 <body>
     <div id="root">
-        <transition-group>
-            <div v-for="item of list" :key="item.id">
-                {{item.title}}
-            </div>
-        </transition-group>
+        <fade :show="show">
+            <div>hello world</div>
+        </fade>
+
+        <fade :show="show">
+            <h1>dddddd</h1>
+        </fade>
+
         <button @click="handleClick">add</button>
     </div>
 
@@ -42,18 +34,37 @@
             template: '<div>child-one</div>'
         })
 
+
+        Vue.component('fade',{
+            props:['show'],
+            template:`
+            <transition @before-enter="handleBeforeEnter" @enter="handleEnter">
+             <slot v-if="show"></slot>
+            </transition>
+            `,
+            methods:{
+                handleBeforeEnter:function(el){
+                    el.style.color="red"
+                },
+                handleEnter:function(el,done){
+                    setTimeout(()=>{
+                        el.style.color = "green"
+                        done()
+                    },2000)
+                }
+            }
+        })
+
         var vm = new Vue({
             el: '#root',
             data: {
                 list:[],
-                count:0
+                count:0,
+                show:true
             },
             methods: {
                 handleClick: function () {
-                    this.list.push({
-                        id: this.count++,
-                        title:'hello world'
-                    })
+                    this.show =!this.show;
                 }
 
             }
