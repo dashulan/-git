@@ -3,14 +3,17 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>动态组件和V-once</title>
+    <title>Vue中的js动画与velocity.js</title>
     <script src="./vue.js"></script>
     <link rel="stylesheet" type="text/css" href="./animate.css">
+    <script src="./velocity.min.js"></script>
 
     <style>
-        .slide-fade-enter, .slide-fade-leave-to{
-             opacity: 0;
-         }
+        .slide-fade-enter,
+        .slide-fade-leave-to {
+            opacity: 0;
+        }
+
         .slide-fade-enter-active,
         .slide-fade-leave-active {
             transition: opacity 3s;
@@ -22,16 +25,15 @@
 
 <body>
     <div id="root">
-    
-        <transition 
-            :duration="5000"
-            name="slide-fade"
-            appear 
-            enter-active-class="animated swing slide-fade-enter-active"  
-            leave-active-class="animated shake slide-fade-leave-active"
-            appear-active-class="animated swing"
-        >
-        
+
+        <transition>
+            <div>dddd</div>
+        </transition>
+
+
+
+        <transition @before-enter="beforeEnter" @enter="enter" @after-enter="handleAfterEnter">
+
             <div v-if="show">hello world</div>
         </transition>
         <button @click="handleClick">切换</button>
@@ -43,11 +45,21 @@
         var vm = new Vue({
             el: '#root',
             data: {
-                show: true
+                show: true,
+                message: "testfat"
             },
             methods: {
                 handleClick: function () {
                     this.show = !this.show;
+                },
+                beforeEnter: function (el) {
+                    el.style.opacity = 0;
+                },
+                enter: function (el, done) {
+                    Velocity(el, { opacity: 1 }, { duration: 1000, complete: done })
+                },
+                handleAfterEnter: function (el) {
+                    alert("动画结束")
                 }
             }
         })
